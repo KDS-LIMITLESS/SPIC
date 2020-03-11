@@ -22,8 +22,17 @@
 </head>
 <body style="max-width: 50%; margin-left:25%;">    
     <div class="content-section" style="max-width: 50%; margin: 20% 20% 20% 22%;">
+
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        
         <form method="POST">
-            {% csrf_token %}
+            {% csrf_token %}           
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">LOGIN</legend>
                 {{ form|crispy }}
