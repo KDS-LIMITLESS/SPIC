@@ -31,12 +31,12 @@ urlpatterns = [
     path('logout/', authV.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
     
     path('', blogV.PostListView.as_view(template_name='blog/index.html'), name='index'),
-
     path('post/<int:pk>/', blogV.Post_Detail.as_view(template_name='blog/postDetail.html'), name='detail'),
     path('post/new/', blogV.CreatePost.as_view(template_name='blog/newpost.html'), name='newpost'),
     path('post/<int:pk>/update/', blogV.PostUpdateView.as_view(template_name='blog/newpost.html'), name='update'),
     path('post/<int:pk>/delete/', blogV.DeletePost.as_view(template_name='blog/delete.html'), name='delete'),
-   
+    path('user/<str:username>', blogV.UserPostListView.as_view(template_name='blog/posts.html'), name='userposts'),
+
     path('admin/', admin.site.urls),    
 ]
 
