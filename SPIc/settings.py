@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+#import pymysql  # noqa: 402
+#pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'vc9f1=3%wz4q4eornw#oc*=yn=!4*uh8iip$dxe1kt05#8c5+s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -72,17 +74,47 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SPIc.wsgi.application'
 
+import pymysql  # noqa: 402
+pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
+pymysql.install_as_MySQLdb()
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+#[START db_setup]
+if os.getenv('GAE_APPLICATION', None):
+    #Running on production App Engine, so connect to Google Cloud SQL using
+        #the unix socket at /cloudsql/<your-cloudsql-connection string>
 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '',
+            'USER': 'KDS',
+            'PASSWORD': '',
+            'NAME': 'SPIC_DB',
+        }    
+    }
+    #DATABASES = {
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.sqlite3',
+    #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #    }
+    #}
+
+else:
+    #Running locally so connect to either a local MySQL instance or connect
+    #to cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'SPIC_DB',
+            'USER': '',
+            'PASSWORD': '',
+        }    
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -121,6 +153,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -130,3 +164,11 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'index'
 
 LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('Email_username')
+EMAIL_HOST_PASSWORD = os.environ.get('Email_password')
+
