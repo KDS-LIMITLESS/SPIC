@@ -24,12 +24,19 @@ from django.contrib.auth import views as authV
                                                     # ROUTES
                                                     
 urlpatterns = [
+                                                #       Form Routes
     path('register/', userV.register, name='register'),
     path('profile/', userV.profile, name='profile'),
-
     path('login/', authV.LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', authV.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
-    
+
+                                        #       PASSWORD RESET ROUTES
+    path('password-reset/', authV.PasswordResetView.as_view(template_name='user/password_reset.html'), name='password_reset'),
+    path('password-reset-done/', authV.PasswordResetDoneView.as_view(template_name='user/password_reset_done.html'), name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', authV.PasswordResetConfirmView.as_view(template_name='user/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('password-reset-complete/', authV.PasswordResetCompleteView.as_view(template_name='user/password_reset_complete.html'), name='Password_reset_complete'),
+
+                                            #       PAGES/POSTS ROUTES    
     path('', blogV.PostListView.as_view(template_name='blog/index.html'), name='index'),
     path('post/<int:pk>/', blogV.Post_Detail.as_view(template_name='blog/postDetail.html'), name='detail'),
     path('post/new/', blogV.CreatePost.as_view(template_name='blog/newpost.html'), name='newpost'),
@@ -37,6 +44,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/', blogV.DeletePost.as_view(template_name='blog/delete.html'), name='delete'),
     path('user/<str:username>', blogV.UserPostListView.as_view(template_name='blog/posts.html'), name='userposts'),
 
+                                           #            ADMIN PAGE ROUTE
     path('admin/', admin.site.urls),    
 ]
 

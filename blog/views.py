@@ -17,13 +17,13 @@ class PostListView(ListView):
     model = PostItems
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 2  
+    paginate_by = 3
 
 class UserPostListView(ListView):
     model = PostItems
     template_name = 'blog/posts.html'
     context_object_name = 'posts'
-    paginate_by = 2  
+    paginate_by = 3  
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
