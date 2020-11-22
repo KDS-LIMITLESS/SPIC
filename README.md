@@ -6,7 +6,6 @@
     https://spic-276209.uc.r.appspot.com
 
 
-#### Notice:
-    Emailing system not yet working due to some issues with Google's Gmail. 
+
 
 
