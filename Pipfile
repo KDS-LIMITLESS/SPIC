@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 asgiref = "==3.2.5"
-django = "==3.0.4"
+django = "==3.0.14"
 django-crispy-forms = "==1.9.0"
 mysql-connector-python = "==8.0.20"
 protobuf = "==3.11.3"
