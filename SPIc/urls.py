@@ -34,7 +34,7 @@ urlpatterns = [
     path('password-reset/', authV.PasswordResetView.as_view(template_name='user/password_reset.html'), name='password_reset'),
     path('password-reset-done/', authV.PasswordResetDoneView.as_view(template_name='user/password_reset_done.html'), name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', authV.PasswordResetConfirmView.as_view(template_name='user/password_reset_confirm.html'), name='password_reset_confirm'),
-    path('password-reset-complete/', authV.PasswordResetCompleteView.as_view(template_name='user/password_reset_complete.html'), name='Password_reset_complete'),
+    path('password-reset-complete/', authV.PasswordResetCompleteView.as_view(template_name='user/password_reset_complete.html'), name='password_reset_complete'),
 
                                             #       PAGES/POSTS ROUTES    
     path('', blogV.PostListView.as_view(template_name='blog/index.html'), name='index'),
